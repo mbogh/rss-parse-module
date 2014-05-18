@@ -7,47 +7,45 @@
     var _errorCallback;
     var _processItemCallback;
 
-    var parseJSON = function(jsonString) {
+    var processJSON = function(jsonString) {
         var promises = [];
         var json = JSON.parse(jsonString);
         var items = json['value']['items'];
         for (var i = 0; i < items.length; i++) {
-            var itemDictionary = items[i];
-            promises.push(createOrUpdateItem(itemDictionary));
+            var item = items[i];
+            promises.push(createOrUpdateItem(item));
         };
 
         return Parse.Promise.when(promises);
     };
 
-    var createOrUpdateItem = function(itemDictionary) {
+    var createOrUpdateItem = function(item) {
         var promise = new Parse.Promise();
-        var link = itemDictionary['link'];
-        var n = link.lastIndexOf("/Arkiv-") + 1;
-        var uuid = link.slice(n);
-        uuid = uuid.replace('.aspx', '').replace('/', '-').toLowerCase();
-        
-        console.log(incidentDictionary['title'] + ' ' + uuid);
-        
-        var query = new Parse.Query(IncidentClass);
-        query.equalTo("uuid", uuid);
+        var properties = _processItemCallback(item);
+        var query = new Parse.Query(_objectClass);
+        var uniqueIdentifierKey = getFirstKeyOfArray(properties);
+        query.equalTo(uniqueIdentifierKey, properties[uniqueIdentifierKey]);
         query.first().then(function(object) {
-            console.log('first');
-            var incidentObject = object;
-            if (incidentObject === undefined) {
-                incidentObject = new IncidentClass();
-                console.log('new incident');
+            if (object === undefined) {
+                object = new _objectClass();
             }
-            incidentObject.set('title', incidentDictionary['title']);
-            incidentObject.set('url', incidentDictionary['link']);
-            incidentObject.set('uuid', uuid);
-            incidentObject.set('publishedAt', new Date(incidentDictionary['pubDate']));
-            console.log('incident: ' + incidentObject.get('title'));
-            incidentObject.save().then(function() {
+
+            for (var key in properties) {
+                var property = properties[key];
+                object.set(key, property);
+            }
+            object.save().then(function() {
                 promise.resolve();
             });
         });
         return promise;
     };
+
+    var getFirstKeyOfArray = function (data) {
+        for (var key in data) {
+            return key;
+        }
+    }
 
     module.exports = {
         initialize: function(feedUrl, className) {
@@ -66,7 +64,7 @@
                     'Content-Type': 'application/json;charset=utf-8'
                 },
                 success: function(httpResponse) {
-                    parseJSON(httpResponse.text).then(function() {
+                    processJSON(httpResponse.text).then(function() {
                         _successCallback();
                     });
                 },
@@ -74,6 +72,7 @@
                     _errorCallback(httpResponse);
                 }
             });
-        }
+        },
+        version: '1.0.0'
     }
 })();
