@@ -3,9 +3,9 @@
     var _yahooPipeUrl = 'http://pipes.yahoo.com/pipes/pipe.run?_id=2FV68p9G3BGVbc7IdLq02Q&_render=json&feedcount=100&feedurl=';
     var _rssFeedUrl = '';
     var _objectClass;
-    var _successCallback;
-    var _errorCallback;
-    var _processItemCallback;
+    var _success;
+    var _error;
+    var _map;
 
     var processJSON = function(jsonString) {
         var promises = [];
@@ -21,7 +21,7 @@
 
     var createOrUpdateItem = function(item) {
         var promise = new Parse.Promise();
-        var properties = _processItemCallback(item);
+        var properties = _map(item);
         var query = new Parse.Query(_objectClass);
         var uniqueIdentifierKey = getFirstKeyOfArray(properties);
         query.equalTo(uniqueIdentifierKey, properties[uniqueIdentifierKey]);
@@ -53,10 +53,10 @@
             _objectClass = Parse.Object.extend(className);
             return this;
         },
-        parse: function(success, error, processItem) {
-            _successCallback = success;
-            _errorCallback = error;
-            _processItemCallback = processItem;
+        parse: function(success, error, map) {
+            _success = success;
+            _error = error;
+            _map = map;
 
             Parse.Cloud.httpRequest({
                 url: _yahooPipeUrl + _rssFeedUrl,
@@ -65,11 +65,11 @@
                 },
                 success: function(httpResponse) {
                     processJSON(httpResponse.text).then(function() {
-                        _successCallback();
+                        _success();
                     });
                 },
                 error: function(httpResponse) {
-                    _errorCallback(httpResponse);
+                    _error(httpResponse);
                 }
             });
         },
