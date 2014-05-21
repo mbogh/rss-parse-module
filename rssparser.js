@@ -13,13 +13,13 @@
         var items = json['value']['items'];
         for (var i = 0; i < items.length; i++) {
             var item = items[i];
-            promises.push(createOrUpdateItem(item));
+            promises.push(processItem(item));
         };
 
         return Parse.Promise.when(promises);
     };
 
-    var createOrUpdateItem = function(item) {
+    var processItem = function(item) {
         var promise = new Parse.Promise();
         var properties = _map(item);
         var query = new Parse.Query(_objectClass);
