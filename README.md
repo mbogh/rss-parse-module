@@ -13,10 +13,37 @@ To use the module in your Cloud Code functions, start by requiring it and initia
 ```
 var parser = require('cloud/rssparser-1.0.0.js');
 parser.initialize('URL', 'CLASS');
+parser.parse(success,error,map);
 ```
+
+Documentation
+-------------
+
+
 
 Example
 -------
+
+
+```
+Parse.Cloud.job("NewsFeed", function(request, status) {
+    var parser = require('cloud/rssparser-1.0.0.js');
+    parser.initialize('https://news.ycombinator.com/rss', 'News');
+    parser.parse(function () {
+        status.success('Finished!');
+    },
+    function(error) {
+        status.error('Request failed with error ' + error);
+    },
+    function(item) {
+        var mappedItem = new Array();
+        mappedItem['commentsLink'] = item['comments'];
+        mappedItem['link'] = item['link'];
+        mappedItem['title'] = item['title'];
+        return mappedItem;
+    });
+});
+```
 
 Credits
 -------
