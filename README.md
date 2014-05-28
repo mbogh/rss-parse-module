@@ -21,7 +21,6 @@ Documentation
 
 ### initialize()
 Takes an URL and a class name as input e.g `parser.initialize('http://example.com/rss', 'Example');`  
-Alternatively pass an object with `url` and `className` e.g. `parser.initialize({url: 'http://example.com/rss', className: 'Example'});`
 
 ### parse()
 Takes 3 callback functions as input: success, error and map.
@@ -48,6 +47,12 @@ Parse.Cloud.job("NewsFeed", function(request, status) {
     });
 });
 ```
+
+Roadmap
+-------
+
+Allow objects as parameters e.g. with `initialize()`  
+Alternatively pass an object with `url` and `className` e.g. `parser.initialize({url: 'http://example.com/rss', className: 'Example'});`
 
 Credits
 -------
