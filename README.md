@@ -6,7 +6,7 @@ A RSS Feed parser for Parse Cloud Code which is useful if you want the content o
 Installation
 ------------
 
-Download the module from Releases (e.g. `rssparser-1.0.0.js`) and place it in your `cloud` directory.
+Download the module from [Releases](https://github.com/mbogh/rss-parse-module/releases) (e.g. `rssparser-1.0.0.js`) and place it in your `cloud` directory.
 
 To use the module in your Cloud Code functions, start by requiring it and initializing it with your credentials:
 
