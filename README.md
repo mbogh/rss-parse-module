@@ -60,3 +60,4 @@ Morten Bøgh ([@mbogh](http://twitter.com/mbogh))
 
 License
 -------
+RSS Feed Parser for Parse Cloud Code is released under the MIT license. Please see the LICENSE file for more information
