@@ -24,9 +24,9 @@ Takes an URL and a class name as input e.g `parser.initialize('http://example.co
 
 ### parse()
 Takes 3 callback functions as input: `success`, `error` and `map`.  
-`success`: called when parsing of the RSS feed has completed. Takes no arguments.
-`error`: called if something bad happens. Takes a single argument which is an error object/dictionary.
-`map`: called for every item in the feed and expects a dictionary returned matching the keys of your Parse object. **IMPORTANT NOTICE:** The "first" item in the return dictionary will be used to lookup an existing object and create/update it accordingly. Please see the **Example** section below.
+  * `success`: called when parsing of the RSS feed has completed. Takes no arguments.  
+  * `error`: called if something bad happens. Takes a single argument which is an error object/dictionary.  
+  * `map`: called for every item in the feed and expects a dictionary returned matching the keys of your Parse object. **IMPORTANT NOTICE:** The "first" item in the return dictionary will be used to lookup an existing object and create/update it accordingly. Please see the **Example** section below.
 
 Example
 -------
