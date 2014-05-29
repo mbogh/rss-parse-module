@@ -1,7 +1,7 @@
 RSS Feed Parser for Parse Cloud Code
 ================
 
-A RSS Feed parser for Parse Cloud Code which is useful if you want the content of a RSS feed to end up in Parse.
+A RSS Feed parser for Parse Cloud Code which is useful if you want the content of a RSS feed to end up in the Parse data store.
 
 Installation
 ------------
@@ -23,7 +23,10 @@ Documentation
 Takes an URL and a class name as input e.g `parser.initialize('http://example.com/rss', 'Example');`  
 
 ### parse()
-Takes 3 callback functions as input: success, error and map.
+Takes 3 callback functions as input: `success`, `error` and `map`.  
+`success`: called when parsing of the RSS feed has completed. Takes no arguments.
+`error`: called if something bad happens. Takes a single argument which is an error object/dictionary.
+`map`: called for every item in the feed and expects a dictionary returned matching the keys of your Parse object. **IMPORTANT NOTICE:** The "first" item in the return dictionary will be used to lookup an existing object and create/update it accordingly. Please see the **Example** section below.
 
 Example
 -------
@@ -51,8 +54,12 @@ Parse.Cloud.job("NewsFeed", function(request, status) {
 Roadmap
 -------
 
+**1.**  
 Allow objects as parameters e.g. with `initialize()`  
 Alternatively pass an object with `url` and `className` e.g. `parser.initialize({url: 'http://example.com/rss', className: 'Example'});`
+
+**2.**  
+Support the use of Promises `parser.parse(map(item){}).then()`
 
 Credits
 -------
