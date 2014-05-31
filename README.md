@@ -54,12 +54,10 @@ Parse.Cloud.job("NewsFeed", function(request, status) {
 Roadmap
 -------
 
-**1.**  
-Allow objects as parameters e.g. with `initialize()`  
+1. Allow objects as parameters e.g. with `initialize()`  
 Alternatively pass an object with `url` and `className` e.g. `parser.initialize({url: 'http://example.com/rss', className: 'Example'});`
 
-**2.**  
-Support the use of Promises `parser.parse(map(item){}).then()`
+2. Support the use of Promises `parser.parse(map(item){}).then()`
 
 Credits
 -------
